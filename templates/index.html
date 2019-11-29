@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href={{ url_for('static', filename='css/bootstrap.css') }}>
+  <link rel="stylesheet" href={{ url_for('static', filename='css/estilo-alternativo.css') }}>
+  <link rel='stylesheet' type={{ url_for('static', filename='biblioteca/x3dom.css') }}>
+
+
+
+  <script src={{ url_for('static', filename='biblioteca/x3dom-full.js') }}></script>
+
+  <!-- Core Javascrpit -->
+  <script type="text/javascript" src={{ url_for('static', filename='javascript/elementos.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='javascript/controles.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='javascript/codigo.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='javascript/camera.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='javascript/posting.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='javascript/animacao.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='funcoes/circulo.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='funcoes/rosca.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='funcoes/espiral.js') }}></script>
+</head>
+
+<body onload="iniciar();">
+  <div class="container-fluid">
+    <div class="modal fade" id="results" tabindex="-1" role="dialog" aria-labelledby="results"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="results">Resultados</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div id ="" class="modal-body">
+            <x3d >
+              <scene id="preview">
+
+              </scene>
+            </x3d>
+          </div>
+          <div class="modal-footer">
+            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button> -->
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="carregar();">Carregar</button>
+          </div>:
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col" id="delm">
+        <h3>Elementos</h3>
+
+        <div id="ctrl">
+          <div class="btn-group" role="group">
+            <input class="btn btn-info" type="button" id="novo" value="Novo Objeto" onclick="adicionar();" data-toggle="collapse" data-target="#opcoescollapse" aria-expanded="false" aria-controls="opcoescollapse">
+            <input class="btn btn-info" type="button" value="NovoGrupo" onclick="AddGroupControles();" disabled>
+          </div>
+          <br />
+          <br />
+          <input class="btn btn-info" type="button" value="Deletar" onclick="deletar();">
+          <form class="form-signinDB" action="" method="post" role="formDB">
+              <!--<input id="salvarDB" class="btn btn-info" type="button" value="Salvar" onclick="salvar();"> -->
+              <input TYPE="hidden" name="add" id="addDB" class="form-control" placeholder="ID" >
+              <button id ="salvarDB" class="btn btn-info" type="button" onclick="salvar();" >Salvar</button>
+          </form> 
+          
+          <div id="opcoes"> </div>
+          <div>
+            <br />
+            <h4> Objetos </h4>
+            <select id="lista" size="8" class="form-control" multiple>
+              <option value="camera" onclick="listarAtributos(document.getElementById(this.value));">Câmera</option>
+              <option value="fundo" onclick="listarAtributos(document.getElementById(this.value));">Fundo</option>
+            </select>
+            <p>
+              <a class="btn btn-warning" data-toggle="collapse" href="#buttoncollapse" role="button"
+                aria-expanded="false" aria-controls="buttoncollapse">Complexos</a>
+            </p>
+            <div class="collapse" id="buttoncollapse">
+              <div class="card card-body">
+                <button class="btn btn-danger" onclick="circulo();" data-toggle="collapse"
+                  data-target="#buttoncollapse">Círculo</button>
+                <button class="btn btn-danger" onclick="rosca();">Rosca</button>
+                <button class="btn btn-danger" onclick="espiral();">Espiral</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        
+                <div class="input-group mb-3"> 
+                    <form class="form-signin" action="" method="post" role="form">
+                        <input type="text" name="pesquisar" class="form-control" placeholder="ID" required autofocus>
+                        <button id ="pesqDB" class="btn btn-info" data-toggle="modal" data-target="#results" type="button">Pesquisar</button>
+                      </form> 
+                </div>  
+              
+      </div>
+      <div class="col-7" id="dx3d">
+        <x3d width="700" height="500"id="x3d">
+          <scene id="scene">
+            <navgationInfo type='"fly" "any"' id="navType"></navgationInfo>
+            <viewpoint id="camera"></viewpoint>
+            <transform id="Tabsoluto">
+            </transform>
+            <background id="fundo" skycolor="1 1 1" groundcolor="0.95 0.95 0.95"></background>
+          </scene>
+        </x3d>
+      </div>
+      <div class="col" id="datb">
+        <h3>Propriedades</h3>
+        <select class="form-control" id="atributos" size="10"></select>
+        <div class="input-group mb-3">
+          <input class="form-control" type="text" placeholder="valor" id="vaele">
+          <div class="input-group-prepend">
+            <input class="btn btn-info" type="button" value="Editar" onclick="editar();">
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <br>
+    <footer>
+      <div class="row">
+        <textarea class="form-control" id="codigo" name="story" rows="8" disabled>
+          </textarea>
+      </div>
+    </footer>
+  </div>
+  <script>
+      var render = ''; 
+    </script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript" src={{ url_for('static', filename='javascript/popper.min.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='javascript/bootstrap.min.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='javascript/keys.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='javascript/cod.js') }}></script>
+  <script type="text/javascript" src={{ url_for('static', filename='javascript/script.js') }}></script>
+</body>
+
+</html>

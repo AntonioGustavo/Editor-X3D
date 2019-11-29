@@ -1,0 +1,27 @@
+#delm{
+    background-color: white;
+  }
+  #datb{
+    background-color: white;
+  }
+  #x3d{
+      width: 100%;
+      border:none;
+
+  }
+  body{
+      background-color:white;
+  }
+  input#oi{
+    display: none!important;
+  }
+  select{
+    background-color:rgb(23,162,184)!important;
+    padding:0px!important;
+    box-shadow: none!important;
+  }
+  option{
+    background-color: white;
+    font-weight: 500;
+    padding: 2px;
+  }
